@@ -33,7 +33,7 @@ int main()
 
                 for (int i = 0; i < n; i++) {
                     Task t;
-                    cout << "Task " << i+1 << ": " << endl;
+                    cout << "Task " << i+1 << endl;
                     cout << "ID: ";
                     cin >> t.id;
                     cout << "Duration (in days): ";
@@ -45,12 +45,49 @@ int main()
                     tasks.push_back(t);
                 }
                 break;
-            case 2:
-                cout << "Second Menu" << endl;
+            case 2: {
+                int searchId;
+                cout << "Which ID: ";
+                cin >> searchId;
+                bool found = false;
+                for (auto &t : tasks) {
+                    if (t.id == searchId) {
+                        cout << "Editing the Task " << t.id << endl;
+                        cout << "Duration (current is " << t.duration << "): ";
+                        cin >> t.duration;
+                        cout << "Deadline (current is " << t.deadline << "): ";
+                        cin >> t.deadline;
+                        cout << "Priority (current is " << t.priority << "): ";
+                        cin >> t.priority;
+                        cout << "Task updated successfully" << endl;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "ID " << searchId << " not found!" << endl;
+                }
                 break;
-            case 3:
-                cout << "Third Menu" << endl;
+            }
+            case 3: {
+                int searchId;
+                cout << "Which ID: ";
+                cin >> searchId;
+                bool found = false;
+                auto it = tasks.begin();
+                for (; it != tasks.end(); ++it) {
+                    if (it->id == searchId) {
+                        tasks.erase(it);
+                        cout << "Task " << searchId << " deleted successfully" << endl;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "ID " << searchId << " not found!" << endl;
+                }
                 break;
+            }
             case 4: {
                 cout << "Data Tasks:" << endl;
                 cout << endl;
