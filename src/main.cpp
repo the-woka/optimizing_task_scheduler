@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -98,12 +99,80 @@ int main()
                     cout << "Duration: " << t.duration << ", ";
                     cout << "Deadline: " << t.deadline << ", ";
                     cout << "Priority: " << t.priority << endl;
+                    cout << endl;
                 }
                 break;
             }
-            case 5:
-                cout << "Fifth Menu" << endl;
+            case 5:{
+                int choiceOptimize;
+                cout << "Choose Optimization" << endl;
+                cout << "1. EDF (Earliest Deadline First)" << endl;
+                cout << "2. HPF (Highest Priority First)" << endl;
+                cout << "3. SJF (Shortest Job First)" << endl;
+                cout << "4. Most Optimized Scheduler" << endl;
+                cout << "Choice: ";
+                cin >> choiceOptimize;
+
+                switch (choiceOptimize)
+                {
+                    case 1: {
+                        if (tasks.empty()) {
+                            cout << "Tasks Not Found" << endl;
+                            break;
+                        }
+                        sort(tasks.begin(), tasks.end(), [](const Task &a, const Task &b) {
+                            return a.deadline < b.deadline;
+                        });
+                        int i = 1;
+                        cout << "EDF Sorted Tasks:" << endl;
+                        for (auto &t : tasks) {
+                            cout << "Task " << t.id << endl;
+                        }
+                        cout << endl;
+                        break;
+                    }
+                    case 2: {
+                        if (tasks.empty()) {
+                            cout << "Tasks Not Found" << endl;
+                            break;
+                        }
+                        sort(tasks.begin(), tasks.end(), [](const Task &a, const Task &b) {
+                            return a.priority > b.priority;
+                        });
+                        int i = 1;
+                        cout << "HPF Sorted Tasks:" << endl;
+                        for (auto &t : tasks) {
+                            cout << "Task " << t.id << endl;
+                        }
+                        cout << endl;
+                        break;
+                    }
+                    case 3: {
+                        if (tasks.empty()) {
+                            cout << "Tasks Not Found" << endl;
+                            break;
+                        }
+                        sort(tasks.begin(), tasks.end(), [](const Task &a, const Task &b) {
+                            return a.duration < b.duration;
+                        });
+                        int i = 1;
+                        cout << "SJF Sorted Tasks:" << endl;
+                        for (auto &t : tasks) {
+                            cout << "Task " << t.id << endl;
+                        }
+                        cout << endl;
+                        break;
+                    }
+                    case 4: {
+                        cout << "Most Optimized" endl;
+                        break;
+                    }
+                    default:
+                        cout << "Wrong Input" << endl;
+                        break;
+                }
                 break;
+            }
             case 0:
                 cout << "Task Selesai" << endl;
                 return 0;
