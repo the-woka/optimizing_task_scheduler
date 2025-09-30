@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 
@@ -8,6 +9,75 @@ struct Task {
     int id, duration, deadline, priority;
 };
 
+// If You want to access with CLI (which we're more focused about, use this)
+
+void runEDF(vector<Task>& tasks)
+{
+    sort(tasks.begin(), tasks.end(), [](Task &a, Task &b) {
+        return a.deadline < b.deadline;
+    });
+
+    cout << "EDF Priority" << endl;
+    for (auto &t : tasks) {
+        cout << "Task " << t.id << " (Duration: " << t.deadline << ")" << endl;
+    }
+}
+
+void runHPF(vector<Task>& tasks)
+{
+    sort(tasks.begin(), tasks.end(), [](Task &a, Task &b) {
+        return a.priority > b.priority;
+    });
+
+    cout << "HPF Priority" << endl;
+    for (auto &t : tasks) {
+        cout << "Task " << t.id << " (Priority: " << t.priority << ")" << endl;
+    }
+}
+
+void runSJF(vector<Task>& tasks)
+{
+    sort(tasks.begin(), tasks.end(), [](Task &a, Task &b) {
+        return a.duration < b.duration;
+    });
+
+    cout << "SJF Priority" << endl;
+    for (auto &t : tasks) {
+        cout << "Task " << t.id << " (Duration: " << t.duration << ")" << endl;
+    }
+}
+
+int main (int argc, char* argv[]) {
+    if (argc < 6) { // 6 represent numbers of input
+        cout << "Usage: " << argv[0] << "[edf] [hpf] [sjf] [id] [dur] [dl] [pri]" << endl;
+        return 1;
+    }
+
+    string algo = argv[1];
+    vector<Task> tasks;
+
+    for (int i = 2; i + 3 < argc; i+=4) {
+        Task t;
+        t.id = stoi(argv[i]);
+        t.duration = stoi(argv[i+1]);
+        t.deadline = stoi(argv[i+2]);
+        t.priority = stoi(argv[i+3]);
+        tasks.push_back(t);
+    }
+
+    if (algo == "edf") runEDF(tasks);
+    else if (algo == "hpf") runHPF(tasks);
+    else if (algo == "sjf") runSJF(tasks);
+    else cout << "There's no " << algo << " algorithm" << endl;
+
+    return 0;
+}
+
+
+
+// If u want to access with Interactive Menu, use this instead
+
+/*
 int main()
 {
     int choice;
@@ -182,3 +252,4 @@ int main()
         }
     }
 }
+*/
